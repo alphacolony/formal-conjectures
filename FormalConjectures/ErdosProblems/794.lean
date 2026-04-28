@@ -49,6 +49,8 @@ with 7 edges necessarily contains a 4-vertex subgraph with 3 edges.
 
 namespace Erdos794
 
+open Finset
+
 /-- Harris's counterexample: 28 edges on 9 vertices forming a 3-uniform hypergraph
 that contains no 4-vertex subgraph with 3+ edges. -/
 def HarrisCounterexample : Finset (Finset (Fin 9)) := {
@@ -68,8 +70,7 @@ def Is3Uniform {α : Type*} (H : Finset (Finset α)) : Prop :=
 which spans at least `m` edges of `H`. -/
 def HasAtLeastEdgesOnVertices {α : Type*} [Fintype α] [DecidableEq α]
     (H : Finset (Finset α)) (k m : ℕ) : Prop :=
-  ∃ (S : Finset α) (_ : S ∈ Finset.univ.powersetCard k),
-    (H.filter (fun e => e ⊆ S)).card ≥ m
+  ∃ S : Finset α, #S = k ∧ #{e ∈ H | e ⊆ S} ≥ m
 
 /-- A subgraph on 4 vertices with (at least) 3 edges. -/
 abbrev Has4Vertices3Edges {α : Type*} [Fintype α] [DecidableEq α] (H : Finset (Finset α)) : Prop :=
